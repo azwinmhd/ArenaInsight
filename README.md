@@ -26,8 +26,8 @@
 2. `npm install`
 3. `npm start`
 
-## 📄 Research
-# 🧠 Deep Learning Methodology
+
+## 🧠 Deep Learning Methodology
 The core of ArenaInsight is a custom-trained **Feedforward Neural Network (FNN)**. 
 - **Architecture:** 3-layer Sequential Model (64-32-1 neurons).
 - **Activation:** ReLU for hidden layers to capture non-linear market trends.
