@@ -15,7 +15,7 @@ function App() {
   
   // Dashboard State
   const [marketingBudget, setMarketingBudget] = useState(15000); 
-  const [Cashback, setCashback] = useState(3300); // Updated default to 3300
+  const [Cashback, setCashback] = useState(3300); 
   const [avgPrice, setAvgPrice] = useState(500); 
   const [predictedBookings, setPredictedBookings] = useState(0);
   const [graphData, setGraphData] = useState([]);
@@ -62,23 +62,23 @@ function App() {
     ]);
   };
 
-  // --- NEW DEFENSIBLE CODE ---
+  // --- DEFENSIBLE ROI CALCULATION ---
   const calculateROI = (budget, bookings) => {
-  const adSpend = parseInt(budget) || 0;
-  const incentiveSpend = parseInt(Cashback) || 0;
-  const totalInvestment = adSpend + incentiveSpend;
+    const adSpend = parseInt(budget) || 0;
+    const incentiveSpend = parseInt(Cashback) || 0;
+    const totalInvestment = adSpend + incentiveSpend;
 
-  if (totalInvestment === 0) return "0.00";
+    if (totalInvestment === 0) return "0.00";
 
-  const grossBookingValue = bookings * avgPrice;
-  const platformCommission = grossBookingValue * 0.20;
+    const grossBookingValue = bookings * avgPrice;
+    const platformCommission = grossBookingValue * 0.20;
 
-  const roi = platformCommission / totalInvestment;
-  return roi.toFixed(2);
-};
+    const roi = platformCommission / totalInvestment;
+    return roi.toFixed(2);
+  };
 
   const currentROI = calculateROI(marketingBudget, predictedBookings);
-  const isProfitable = currentROI >= 1.0;
+  const isProfitable = parseFloat(currentROI) >= 1.0;
 
   // --- OPTIMIZER LOGIC ---
   const runOptimizer = () => {
@@ -91,6 +91,7 @@ function App() {
       calculatedBudget = Math.ceil(calculatedBudget / 500) * 500;
       let calculatedCoins = Math.round(currentCoins * 1.1);
       if (calculatedCoins < 500) calculatedCoins = 500; 
+      if (calculatedCoins > 15000) calculatedCoins = 15000;
 
       setOptimalBudget(calculatedBudget);
       setOptimalCoins(calculatedCoins);
@@ -108,7 +109,7 @@ function App() {
   const renderContent = () => {
     switch(activeTab) {
       
-      // 1. HOME TAB (The New Intro Page)
+      // 1. HOME TAB (The Intro Page)
       case 'home':
         return (
           <div className="home-container">
@@ -162,7 +163,7 @@ function App() {
               <div className="control-group">
                 <label>Incentive Pool</label>
                 <div className="slider-value">₹{parseInt(Cashback).toLocaleString()}</div>
-                <input type="range" min="0" max="10000" step="100" 
+                <input type="range" min="0" max="20000" step="100" 
                   value={Cashback} onChange={e => setCashback(e.target.value)} className="slider"/>
               </div>
               <div className="control-group">
@@ -257,9 +258,9 @@ function App() {
       case 'history':
         return (
           <div className="card" style={{height: '500px'}}>
-            <h3>Model Validation (Actual vs AI)</h3>
+            <h3>Model Validation (Synthetic vs AI)</h3>
             <p style={{color: '#666', marginBottom: '30px'}}>
-              Comparing historical ledger data against AI predictions to ensure model accuracy.
+              Comparing SDV synthetic baseline data against AI predictions to validate model accuracy.
             </p>
             <ResponsiveContainer width="100%" height="80%">
               <BarChart data={historyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -268,13 +269,13 @@ function App() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="Actual" fill="#8884d8" name="Actual Data (Excel)" />
+                <Bar dataKey="Actual" fill="#8884d8" name="SDV Synthetic Baseline" />
                 <Bar dataKey="AI_Predicted" fill="#00a651" name="AI Prediction Model" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         );
-      
+
       default:
         return <div>Select a tab</div>;
     }
