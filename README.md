@@ -38,9 +38,13 @@ ArenaInsight is an end-to-end predictive analytics platform designed to solve lo
 
 Predict Monthly Bookings
 GET /api/predict/
-Query Parameters:
 
-ParameterTypeRequiredDescriptionExamplespendintegerYesDirect marketing ad budget (INR)20000coinsintegerYesIncentive pool / cashback allocation (INR)2000
+**Query Parameters:**
+
+| Parameter | Type | Required | Description | Example |
+| :--- | :--- | :--- | :--- | :--- |
+| `spend` | `integer` | Yes | Direct marketing ad budget (INR) | `20000` |
+| `coins` | `integer` | Yes | Incentive pool / cashback allocation (INR) | `2000` |
 
 Sample Response:
 
